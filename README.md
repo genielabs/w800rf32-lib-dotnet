@@ -23,19 +23,23 @@ using W800Rf32Lib;
 RfReceiver x10rf = new RfReceiver();
 
 // Listen to events
+
 x10rf.ConnectionStatusChanged += delegate(object sender, ConnectionStatusChangedEventArgs args)
 {
     Console.WriteLine("Receiver connected state {0}", args.Connected);
 };
+
 x10rf.RfDataReceived += delegate(object sender, RfDataReceivedEventArgs args)
 {
     Console.WriteLine("Received RF raw data: {0}", BitConverter.ToString(args.Data));
 };
+
 x10rf.RfCommandReceived += delegate(object sender, RfCommandReceivedEventArgs args)
 {
     Console.WriteLine("Received X10 command {0} House Code {1} Unit {2}",
         args.Command, args.HouseCode, args.UnitCode);
 };
+
 x10rf.RfSecurityReceived += delegate(object sender, RfSecurityReceivedEventArgs args)
 {
     Console.WriteLine("Received X10 Security event {0} from address {1}",
