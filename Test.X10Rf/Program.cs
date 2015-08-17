@@ -17,7 +17,7 @@ namespace Test.X10Rf
 
             Console.WriteLine("W800RF32 Test Program");
 
-            RfReceiver x10rf = new RfReceiver();
+            var x10rf = new RfReceiver();
             // Listen to W800RF32 events
             x10rf.ConnectionStatusChanged += X10rf_ConnectionStatusChanged;
             x10rf.RfDataReceived += X10rf_RfDataReceived;

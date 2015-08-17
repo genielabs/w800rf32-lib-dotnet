@@ -20,7 +20,7 @@ Run `Install-Package W800Rf32Lib` in the [Package Manager Console](http://docs.n
 using W800Rf32Lib;
 //...
 
-RfReceiver x10rf = new RfReceiver();
+var x10rf = new RfReceiver();
 
 // Listen to events
 
