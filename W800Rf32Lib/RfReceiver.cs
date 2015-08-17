@@ -47,7 +47,7 @@ namespace W800Rf32Lib
         // Variables used for preventing duplicated messages coming from RF
         private DateTime lastRfReceivedTs = DateTime.Now;
         private string lastRfMessage = "";
-        private uint minRepeatMsDelay = 500;
+        private uint minRfRepeatDelayMs = 500;
 
         #endregion
 
@@ -66,32 +66,32 @@ namespace W800Rf32Lib
         /// <summary>
         /// Raw data received event.
         /// </summary>
-        public delegate void RawDataReceivedEvent(object sender, RawDataReceivedEventArgs args);
+        public delegate void RawDataReceivedEvent(object sender, RfDataReceivedEventArgs args);
 
         /// <summary>
         /// Occurs when raw data is received.
         /// </summary>
-        public event RawDataReceivedEvent RawDataReceived;
+        public event RawDataReceivedEvent RfDataReceived;
 
         /// <summary>
         /// X10 command received event.
         /// </summary>
-        public delegate void X10CommandReceivedEvent(object sender, X10CommandReceivedEventArgs args);
+        public delegate void X10CommandReceivedEvent(object sender, RfCommandReceivedEventArgs args);
 
         /// <summary>
         /// Occurs when x10 command received.
         /// </summary>
-        public event X10CommandReceivedEvent X10CommandReceived;
+        public event X10CommandReceivedEvent RfCommandReceived;
 
         /// <summary>
         /// X10 security data received event.
         /// </summary>
-        public delegate void X10SecurityReceivedEvent(object sender, X10SecurityReceivedEventArgs args);
+        public delegate void X10SecurityReceivedEvent(object sender, RfSecurityReceivedEventArgs args);
 
         /// <summary>
         /// Occurs when x10 security data is received.
         /// </summary>
-        public event X10SecurityReceivedEvent X10SecurityReceived;
+        public event X10SecurityReceivedEvent RfSecurityReceived;
 
         #endregion
 
@@ -171,20 +171,17 @@ namespace W800Rf32Lib
             // Repeated messages check
             if (isCodeValid)
             {
-                if (lastRfMessage == BitConverter.ToString(message) && (DateTime.Now - lastRfReceivedTs).TotalMilliseconds < minRepeatMsDelay)
+                if (lastRfMessage == BitConverter.ToString(message) && (DateTime.Now - lastRfReceivedTs).TotalMilliseconds < minRfRepeatDelayMs)
                 {
-                    logger.Warn("Ignoring repeated message within {0}ms", minRepeatMsDelay);
+                    logger.Warn("Ignoring repeated message within {0}ms", minRfRepeatDelayMs);
                     return;
                 }
                 lastRfMessage = BitConverter.ToString(message);
                 lastRfReceivedTs = DateTime.Now;
             }
 
-            OnRawDataReceived(new RawDataReceivedEventArgs(message));
+            OnRfDataReceived(new RfDataReceivedEventArgs(message));
 
-            // Decode received 32 bit message
-            // house code + 4th bit of unit code
-            // unit code (3 bits) + function code
             if (isSecurityCode)
             {
                 var securityEvent = X10RfSecurityEvent.NotSet;
@@ -192,7 +189,8 @@ namespace W800Rf32Lib
                 uint securityAddress = message[0]; //BitConverter.ToUInt32(new byte[] { message[0] }, 0);
                 if (securityEvent != X10RfSecurityEvent.NotSet)
                 {
-                    OnX10SecurityReceived(new X10SecurityReceivedEventArgs(securityEvent, securityAddress));
+                    logger.Debug("Security Event {0} Address {1}", securityEvent, securityAddress);
+                    OnRfSecurityReceived(new RfSecurityReceivedEventArgs(securityEvent, securityAddress));
                 }
                 else
                 {
@@ -201,6 +199,10 @@ namespace W800Rf32Lib
             }
             else if (isCodeValid)
             {
+                // Decode received 32 bit message
+                // house code + 4th bit of unit code
+                // unit code (3 bits) + function code
+
                 // Parse function code
                 var hf = X10RfFunction.NotSet;
                 Enum.TryParse<X10RfFunction>(message[2].ToString(), out hf);
@@ -214,14 +216,14 @@ namespace W800Rf32Lib
                 case X10RfFunction.Dim:
                 case X10RfFunction.Bright:
                     logger.Debug("Command {0}", hf);
-                    OnX10CommandReceived(new X10CommandReceivedEventArgs(hf, X10HouseCode.NotSet, X10UnitCode.Unit_NotSet));
+                    OnRfCommandReceived(new RfCommandReceivedEventArgs(hf, X10HouseCode.NotSet, X10UnitCode.Unit_NotSet));
                     break;
                 case X10RfFunction.AllLightsOn:
                 case X10RfFunction.AllLightsOff:
                     if (houseCode != X10HouseCode.NotSet)
                     {
                         logger.Debug("Command {0} HouseCode {1}", hf, houseCode);
-                        OnX10CommandReceived(new X10CommandReceivedEventArgs(hf, houseCode, X10UnitCode.Unit_NotSet));
+                        OnRfCommandReceived(new RfCommandReceivedEventArgs(hf, houseCode, X10UnitCode.Unit_NotSet));
                     }
                     break;
                 case X10RfFunction.NotSet:
@@ -244,7 +246,7 @@ namespace W800Rf32Lib
                         if (unitCode != X10UnitCode.Unit_NotSet)
                         {
                             logger.Debug("Command {0} HouseCode {1} UnitCode {2}", fn, houseCode, unitCode.Value());
-                            OnX10CommandReceived(new X10CommandReceivedEventArgs(fn, houseCode, unitCode));
+                            OnRfCommandReceived(new RfCommandReceivedEventArgs(fn, houseCode, unitCode));
                         }
                         else
                         {
@@ -312,33 +314,33 @@ namespace W800Rf32Lib
         }
 
         /// <summary>
-        /// Raises the raw data received event.
+        /// Raises the rf data received event.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        protected virtual void OnRawDataReceived(RawDataReceivedEventArgs args)
+        protected virtual void OnRfDataReceived(RfDataReceivedEventArgs args)
         {
-            if (RawDataReceived != null)
-                RawDataReceived(this, args);
+            if (RfDataReceived != null)
+                RfDataReceived(this, args);
         }
 
         /// <summary>
-        /// Raises the x10 command received event.
+        /// Raises the RF command received event.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        protected virtual void OnX10CommandReceived(X10CommandReceivedEventArgs args)
+        protected virtual void OnRfCommandReceived(RfCommandReceivedEventArgs args)
         {
-            if (X10CommandReceived != null)
-                X10CommandReceived(this, args);
+            if (RfCommandReceived != null)
+                RfCommandReceived(this, args);
         }
 
         /// <summary>
-        /// Raises the x10 security received event.
+        /// Raises the RF security received event.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        protected virtual void OnX10SecurityReceived(X10SecurityReceivedEventArgs args)
+        protected virtual void OnRfSecurityReceived(RfSecurityReceivedEventArgs args)
         {
-            if (X10SecurityReceived != null)
-                X10SecurityReceived(this, args);
+            if (RfSecurityReceived != null)
+                RfSecurityReceived(this, args);
         }
 
         #endregion

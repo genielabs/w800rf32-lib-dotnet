@@ -36,7 +36,7 @@ namespace W800Rf32Lib
         public readonly bool Connected;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerialPortLib.ConnectionStatusChangedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="W800Rf32Lib.ConnectionStatusChangedEventArgs"/> class.
         /// </summary>
         /// <param name="state">State of the connection (true = connected, false = not connected).</param>
         public ConnectionStatusChangedEventArgs(bool state)
@@ -46,9 +46,9 @@ namespace W800Rf32Lib
     }
 
     /// <summary>
-    /// Raw data received event arguments.
+    /// Rf data received event arguments.
     /// </summary>
-    public class RawDataReceivedEventArgs
+    public class RfDataReceivedEventArgs
     {
         /// <summary>
         /// The raw data.
@@ -56,19 +56,19 @@ namespace W800Rf32Lib
         public readonly byte[] Data;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="W800Rf32Lib.RawDataReceivedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="W800Rf32Lib.RfDataReceivedEventArgs"/> class.
         /// </summary>
         /// <param name="data">Data.</param>
-        public RawDataReceivedEventArgs(byte[] data)
+        public RfDataReceivedEventArgs(byte[] data)
         {
             Data = data;
         }
     }
 
     /// <summary>
-    /// X10 command received event arguments.
+    /// RF command received event arguments.
     /// </summary>
-    public class X10CommandReceivedEventArgs
+    public class RfCommandReceivedEventArgs
     {
         /// <summary>
         /// The command.
@@ -84,12 +84,12 @@ namespace W800Rf32Lib
         public readonly X10UnitCode UnitCode;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="W800Rf32Lib.X10CommandReceivedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="W800Rf32Lib.RfCommandReceivedEventArgs"/> class.
         /// </summary>
         /// <param name="function">Function.</param>
         /// <param name="housecode">Housecode.</param>
         /// <param name="unitcode">Unitcode.</param>
-        public X10CommandReceivedEventArgs(X10RfFunction function, X10HouseCode housecode, X10UnitCode unitcode)
+        public RfCommandReceivedEventArgs(X10RfFunction function, X10HouseCode housecode, X10UnitCode unitcode)
         {
             Command = function;
             HouseCode = housecode;
@@ -98,9 +98,9 @@ namespace W800Rf32Lib
     }
 
     /// <summary>
-    /// X10 security received event arguments.
+    /// RF security received event arguments.
     /// </summary>
-    public class X10SecurityReceivedEventArgs
+    public class RfSecurityReceivedEventArgs
     {
         /// <summary>
         /// The event.
@@ -112,11 +112,11 @@ namespace W800Rf32Lib
         public readonly uint Address;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="W800Rf32Lib.X10SecurityReceivedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="W800Rf32Lib.RfSecurityReceivedEventArgs"/> class.
         /// </summary>
         /// <param name="evt">Evt.</param>
         /// <param name="addr">Address.</param>
-        public X10SecurityReceivedEventArgs(X10RfSecurityEvent evt, uint addr)
+        public RfSecurityReceivedEventArgs(X10RfSecurityEvent evt, uint addr)
         {
             Event = evt;
             Address = addr;

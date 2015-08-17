@@ -18,14 +18,17 @@ namespace Test.X10Rf
             Console.WriteLine("W800RF32 Test Program");
 
             RfReceiver x10rf = new RfReceiver();
+            // Listen to W800RF32 events
             x10rf.ConnectionStatusChanged += X10rf_ConnectionStatusChanged;
-            x10rf.RawDataReceived += X10rf_RawDataReceived;
-            x10rf.X10CommandReceived += X10rf_X10CommandReceived;
-            x10rf.X10SecurityReceived += X10rf_X10SecurityReceived;
+            x10rf.RfDataReceived += X10rf_RfDataReceived;
+            x10rf.RfCommandReceived += X10rf_RfCommandReceived;
+            x10rf.RfSecurityReceived += X10rf_RfSecurityReceived;
+            // Set the serial port to use
             x10rf.PortName = "/dev/ttyUSB0";
+            // Connect to the receiver
             x10rf.Connect();
 
-            // Prevent the program from quitting
+            // Prevent the program from quitting with a noop loop
             while (true)
             {
                 Thread.Sleep(1000);
@@ -35,20 +38,20 @@ namespace Test.X10Rf
 
         static void X10rf_ConnectionStatusChanged(object sender, ConnectionStatusChangedEventArgs args)
         {
-            Console.WriteLine("Receiver connected state {0}", args.Connected);
+            Console.WriteLine("Receiver connection status {0}", args.Connected);
         }
 
-        static void X10rf_RawDataReceived(object sender, RawDataReceivedEventArgs args)
+        static void X10rf_RfDataReceived(object sender, RfDataReceivedEventArgs args)
         {
             Console.WriteLine("Received RF raw data: {0}", BitConverter.ToString(args.Data));
         }
 
-        static void X10rf_X10CommandReceived(object sender, X10CommandReceivedEventArgs args)
+        static void X10rf_RfCommandReceived(object sender, RfCommandReceivedEventArgs args)
         {
             Console.WriteLine("Received X10 command {0} House Code {1} Unit {2}", args.Command, args.HouseCode, args.UnitCode);
         }
 
-        static void X10rf_X10SecurityReceived(object sender, X10SecurityReceivedEventArgs args)
+        static void X10rf_RfSecurityReceived(object sender, RfSecurityReceivedEventArgs args)
         {
             Console.WriteLine("Received X10 Security event {0} from address {1}", args.Event, args.Address.ToString("X2"));
         }
