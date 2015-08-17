@@ -8,12 +8,10 @@ namespace Test.X10Rf
 {
     class MainClass
     {
-        // TODO: Add copyright notice to each file
-        // TODO: Add ConnectionStateChanged event (to XTenLib as well)
 
         public static void Main(string[] args)
         {
-            // NOTE: To disable debug output comment out the following two lines
+            // NOTE: To disable debug output uncomment the following two lines
             //LogManager.Configuration.LoggingRules.RemoveAt(0);
             //LogManager.Configuration.Reload();
 
