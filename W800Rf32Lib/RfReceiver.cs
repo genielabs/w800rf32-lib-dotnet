@@ -24,6 +24,7 @@ using System;
 
 using NLog;
 using SerialPortLib;
+using System.Threading;
 
 namespace W800Rf32Lib
 {
@@ -43,6 +44,7 @@ namespace W800Rf32Lib
 
         private byte[] ackRequest = new byte[] { 0xF0, 0x29 };
         private byte ackReply = 0x29;
+        private Timer receiverAckWaitTimeout;
 
         // Variables used for preventing duplicated messages coming from RF
         private DateTime lastRfReceivedTs = DateTime.Now;
@@ -118,6 +120,15 @@ namespace W800Rf32Lib
         public bool Connect()
         {
             Disconnect();
+            if (receiverAckWaitTimeout == null)
+            {
+                receiverAckWaitTimeout = new Timer(delegate(object target)
+                {
+                    if (!receiverOnline)
+                        Connect();
+                });
+            }
+            receiverAckWaitTimeout.Change(3000, Timeout.Infinite);
             return serialPort.Connect();
         }
 
@@ -126,6 +137,11 @@ namespace W800Rf32Lib
         /// </summary>
         public void Disconnect()
         {
+            if (receiverAckWaitTimeout != null)
+            {
+                receiverAckWaitTimeout.Dispose();
+                receiverAckWaitTimeout = null;
+            }
             serialPort.Disconnect();
             OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(false));
         }
@@ -150,7 +166,7 @@ namespace W800Rf32Lib
             {
                 if (portName != value)
                 {
-                    serialPort.SetPort(portName, 4800);
+                    serialPort.SetPort(value, 4800);
                 }
                 portName = value;
             }
@@ -308,8 +324,9 @@ namespace W800Rf32Lib
         /// <param name="args">Arguments.</param>
         protected virtual void OnConnectionStatusChanged(ConnectionStatusChangedEventArgs args)
         {
+            bool wasOnline = receiverOnline;
             receiverOnline = args.Connected;
-            if (ConnectionStatusChanged != null)
+            if (ConnectionStatusChanged != null && wasOnline != receiverOnline)
                 ConnectionStatusChanged(this, args);
         }
 
