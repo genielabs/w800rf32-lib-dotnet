@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>W800Rf32Lib</id>
-        <version>1.0.1</version>
+        <version>1.0.3</version>
         <title>W800Rf32Lib</title>
         <authors>Generoso Martello</authors>
         <owners>G-Labs</owners>
@@ -17,12 +17,12 @@ Features
 - Automatically restabilish connection on error/disconnect
 - Compatible with Mono</description>
         <summary>W800RF32 RF Receiver library for X10 Home Automation (.NET / Mono)</summary>
-        <releaseNotes>Event names refactoring, see new examples on github.</releaseNotes>
+        <releaseNotes>Updated dependencies.</releaseNotes>
         <copyright>G-Labs</copyright>
         <tags>w800rf32 x10 home automation</tags>
         <dependencies>
-            <dependency id="SerialPortLib" version="1.0.6" />
-            <dependency id="NLog" version="4.0.1" />
+            <dependency id="SerialPortLib" version="1.0.8" />
+            <dependency id="NLog" version="4.1.0" />
         </dependencies>
     </metadata>
     <files>

@@ -32,10 +32,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="NLog">
-      <HintPath>..\packages\NLog.4.0.1\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="SerialPortLib">
-      <HintPath>..\packages\SerialPortLib.1.0.6\lib\SerialPortLib.dll</HintPath>
+      <HintPath>..\packages\SerialPortLib.1.0.8\lib\SerialPortLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

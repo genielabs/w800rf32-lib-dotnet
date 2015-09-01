@@ -58,42 +58,42 @@ namespace W800Rf32Lib
         /// <summary>
         /// Connected state changed event.
         /// </summary>
-        public delegate void ConnectionStatusChangedEvent(object sender, ConnectionStatusChangedEventArgs args);
+        public delegate void ConnectionStatusChangedEventHandler(object sender, ConnectionStatusChangedEventArgs args);
 
         /// <summary>
         /// Occurs when connected state changed.
         /// </summary>
-        public event ConnectionStatusChangedEvent ConnectionStatusChanged;
+        public event ConnectionStatusChangedEventHandler ConnectionStatusChanged;
 
         /// <summary>
         /// Raw data received event.
         /// </summary>
-        public delegate void RawDataReceivedEvent(object sender, RfDataReceivedEventArgs args);
+        public delegate void RawDataReceivedEventHandler(object sender, RfDataReceivedEventArgs args);
 
         /// <summary>
         /// Occurs when raw data is received.
         /// </summary>
-        public event RawDataReceivedEvent RfDataReceived;
+        public event RawDataReceivedEventHandler RfDataReceived;
 
         /// <summary>
         /// X10 command received event.
         /// </summary>
-        public delegate void X10CommandReceivedEvent(object sender, RfCommandReceivedEventArgs args);
+        public delegate void X10CommandReceivedEventHandler(object sender, RfCommandReceivedEventArgs args);
 
         /// <summary>
         /// Occurs when x10 command received.
         /// </summary>
-        public event X10CommandReceivedEvent RfCommandReceived;
+        public event X10CommandReceivedEventHandler RfCommandReceived;
 
         /// <summary>
         /// X10 security data received event.
         /// </summary>
-        public delegate void X10SecurityReceivedEvent(object sender, RfSecurityReceivedEventArgs args);
+        public delegate void X10SecurityReceivedEventHandler(object sender, RfSecurityReceivedEventArgs args);
 
         /// <summary>
         /// Occurs when x10 security data is received.
         /// </summary>
-        public event X10SecurityReceivedEvent RfSecurityReceived;
+        public event X10SecurityReceivedEventHandler RfSecurityReceived;
 
         #endregion
 
