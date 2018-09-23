@@ -1,5 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/yly4xa7o5hu7y6kb?svg=true)](https://ci.appveyor.com/project/genemars/w800rf32-lib-dotnet)
 [![NuGet](https://img.shields.io/nuget/v/W800Rf32Lib.svg)](https://www.nuget.org/packages/W800Rf32Lib/)
+![License](https://img.shields.io/github/license/genielabs/w800rf32-lib-dotnet.svg)
 
 # W800RF32 RF Receiver library for X10 Home Automation (.NET / Mono)
 
