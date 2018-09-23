@@ -9,5 +9,6 @@
 Thumbs.db
 *.suo
 *.userprefs
-packages/NLog*
-packages/SerialPortLib*
+packages
+.idea
+

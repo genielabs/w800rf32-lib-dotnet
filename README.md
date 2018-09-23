@@ -1,3 +1,6 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/yly4xa7o5hu7y6kb?svg=true)](https://ci.appveyor.com/project/genemars/w800rf32-lib-dotnet)
+[![NuGet](https://img.shields.io/nuget/v/W800Rf32Lib.svg)](https://www.nuget.org/packages/W800Rf32Lib/)
+
 # W800RF32 RF Receiver library for X10 Home Automation (.NET / Mono)
 
 ## Features
@@ -55,4 +58,4 @@ x10rf.Connect();
 
 ## License
 
-W800Rf32Lib is open source software, licensed under the terms of GNU GPLV3 license. See the [LICENSE](LICENSE) file for details.
+W800Rf32Lib is open source software, licensed under the terms of Apache license v2.0. See the [LICENSE](LICENSE) file for details.
